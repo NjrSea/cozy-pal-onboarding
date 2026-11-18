@@ -1,6 +1,6 @@
 ---
 name: cozy-pal-onboarding
-description: Set up Cozy Pal on a Mac from scratch or resume an existing setup. Find the official Mac download, connect the local Paseo daemon, verify one coding provider, and register a project the user selects. Use for first-time Cozy Pal setup and provider or project setup on that same Mac.
+description: Set up Cozy Pal on a Mac from scratch or resume an existing setup. Check the official download options for Cozy Deck and Cozy Pal, connect the local Paseo daemon, verify one coding provider, and register a project the user selects. Use for first-time Cozy Pal setup and provider or project setup on that same Mac.
 ---
 
 # Set up Cozy Pal
@@ -13,7 +13,7 @@ Start at the first unfinished step. Tool setup and iPhone pairing can proceed in
 
 ```mermaid
 flowchart TD
-    Start["Check the Mac that runs the coding tools"] --> Pal{"Cozy Pal installed?"}
+    Start["Check current download options on the Cozy Deck website"] --> Pal{"Cozy Pal installed on the target Mac?"}
     Pal -->|No| DMG["Download the official DMG directly and install Cozy Pal"]
     Pal -->|Yes| Open["Open Cozy Pal"]
     DMG --> Open
@@ -36,7 +36,14 @@ flowchart TD
     Models -->|Lookup failed| Retry
 
     Open --> Phone{"iPhone already paired?"}
-    Phone -->|No| Scan["Scan the Cozy Pal code in Cozy Deck, or pair later"]
+    Phone -->|No| Deck{"Cozy Deck installed on the iPhone?"}
+    Deck -->|Yes| Scan["Scan the Cozy Pal code in Cozy Deck, or pair later"]
+    Deck -->|No| Channel{"iPhone download option confirmed?"}
+    Channel -->|App Store| Store["Open the official App Store listing"]
+    Channel -->|TestFlight| Invite["Open the current TestFlight invite"]
+    Channel -->|Unavailable or unknown| Check
+    Store --> Scan
+    Invite --> Scan
     Phone -->|Yes| Paired["Reuse the existing pairing"]
     Scan --> Check
     Paired --> Check
@@ -45,10 +52,18 @@ flowchart TD
     Check -->|No| Pending["Show the unfinished step and resume from there"]
 ```
 
+## Check current download options
+
+Open the [official Cozy Deck product page](https://sundaydesk.app/cozy-deck/) at the start of onboarding. Read the links and their surrounding labels, including the setup section. If an HTTP fetch cannot read the page, try opening it in a browser. Check the two apps separately.
+
+- **Cozy Deck for iPhone.** If the website links to the public Cozy Deck listing on `apps.apple.com`, confirm the Apple page is for Cozy Deck and give the user that link to open on their iPhone. When the website offers both App Store and TestFlight, use the App Store for normal setup and TestFlight when the user wants the beta. If the website offers TestFlight, read the current `testflight.apple.com/join/…` link directly from the website, confirm the Apple invite is for Cozy Deck, then share it and explain how to join and install with TestFlight. If Apple says the beta is full, closed, or unavailable, report that state and use a verified App Store link if one exists.
+- **Cozy Pal for Mac.** Read the current DMG link, version if shown, and supported macOS from the product page or its [Cozy Pal setup guide](https://sundaydesk.app/products/cozy-deck/setup/). Use the current official DMG URL directly when installation is needed. Cozy Pal's availability is independent of the iPhone release channel.
+- If you cannot verify an iPhone download option, share the official product page and mark the iPhone install as pending. Continue with Mac setup. Take Apple links from the current website and avoid inferring a URL from a cached invite code, an App Store search result, or a release announcement alone.
+
 ## 1. Check and install Cozy Pal
 
-- Check macOS version and hardware. Sunday Desk currently lists Apple silicon and macOS 14 or later. Recheck [the official Cozy Deck product page](https://sundaydesk.app/cozy-deck/#pair) if the installed build or supported platform differs.
-- Look for Cozy Pal in Applications, including the user's Applications folder. Reuse an existing working installation and its pairing identity. If it is absent, download the [official Cozy Pal DMG](https://sundaydesk.app/downloads/cozy-pal/CozyPal-1.0.0.dmg) directly. If the versioned URL is unavailable, use the manual download link from the [Cozy Pal setup guide](https://sundaydesk.app/products/cozy-deck/setup/) or the current link on the official product page. Mount the DMG with Finder, copy **Cozy Pal.app** to Applications, eject the image, and open the installed app. If acting with terminal tools, verify the downloaded app with the system's code-signing and Gatekeeper checks before running it. Hand macOS security prompts to the user. If the download is unavailable or verification fails, report the failure and the official source instead of substituting a mirror.
+- Check the target Mac against the system requirements on the official website before installing. If the requirements cannot be verified, the bundled DMG below is for Apple silicon and macOS 14 or later.
+- Look for Cozy Pal in Applications, including the user's Applications folder. Reuse an existing working installation and its pairing identity. If it is absent, download the current official DMG directly. If the official website cannot be read, the [bundled Cozy Pal 1.0.0 DMG link](https://sundaydesk.app/downloads/cozy-pal/CozyPal-1.0.0.dmg) is a fallback. Confirm that it still serves the DMG and verify the app before running it. Mount the DMG with Finder, copy **Cozy Pal.app** to Applications, eject the image, and open the installed app. If acting with terminal tools, verify the downloaded app with the system's code-signing and Gatekeeper checks before running it. Hand macOS security prompts to the user. If the download is unavailable or verification fails, report the failure and the official source instead of substituting a mirror.
 - Open First-Time Setup from Cozy Pal if needed. Earlier releases offer Pairing instead. Verify that the installed app opens.
 
 ## 2. Detect or install Paseo
@@ -72,4 +87,4 @@ flowchart TD
 
 ## 5. Hand off to iPhone
 
-If the iPhone is already paired, reuse the pairing. Otherwise guide the user to open Cozy Deck, choose Add Host, and scan the code in **Cozy Pal**. The user can pair before tool setup is complete or come back to pairing later. Keep the live code on the Mac. If the phone is available, verify the selected project, provider, and model in Cozy Deck's new-session flow. Confirm that pairing, provider readiness, and project visibility each have their own evidence. If interrupted, relay the remaining action and resume from the observed state.
+If the iPhone is already paired, reuse the pairing. If Cozy Deck is missing on the iPhone, give the user the verified App Store listing or TestFlight invite from the official website. Once Cozy Deck is installed, guide the user to open it, choose Add Host, and scan the code in **Cozy Pal**. The user can pair before tool setup is complete or come back to pairing later. Keep the live code on the Mac. If the phone is available, verify the selected project, provider, and model in Cozy Deck's new-session flow. Confirm that pairing, provider readiness, and project visibility each have their own evidence. If interrupted, relay the remaining action and resume from the observed state.
