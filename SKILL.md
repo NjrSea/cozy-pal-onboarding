@@ -1,11 +1,19 @@
 ---
 name: cozy-pal-onboarding
-description: Set up Cozy Pal on a Mac from scratch or resume an existing setup. Check the official download options for Cozy Deck and Cozy Pal, connect the local Paseo daemon, verify one coding provider, and register a project the user selects. Use for first-time Cozy Pal setup and provider or project setup on that same Mac.
+description: Set up Cozy Pal on a Mac from scratch or resume an existing setup. Check the official download options for Cozy Deck and Cozy Pal, connect the local Paseo daemon, verify one coding provider, and register a project the user selects. Use for first-time setup, pairing an iPhone with Cozy Pal, diagnosing pairing failures and timeouts, reading logs, or troubleshooting missing projects and project creation.
 ---
 
 # Set up Cozy Pal
 
 Run local checks on the Mac that will run the user's coding agents. A cloud terminal, a different computer, or an SSH session to another host cannot prove local installation. If you lack access to the target Mac, give the user the next concrete action and ask what they see. Use their language.
+
+## What the apps do
+
+- **Cozy Deck** is the iPhone app. It connects to the Mac so the user can see coding sessions, send replies, and handle supported approvals away from the desk.
+- **Cozy Pal** is the Mac menu bar app. It pairs the phone with the Mac and connects Cozy Deck to tools running on that Mac.
+- **Paseo** is the coding-agent runtime used in this guide. Paseo on the Mac exposes the registered project folders and runs the configured providers and models. Pairing the iPhone connects it to the Mac. Project registration and provider readiness are checked in Paseo.
+
+If the user reports a problem, start with [Troubleshoot Cozy Deck and Cozy Pal](references/troubleshooting.md). Resume onboarding at the first unfinished step after diagnosis.
 
 ## Onboarding flow
 
@@ -85,6 +93,11 @@ Open the [official Cozy Deck product page](https://sundaydesk.app/cozy-deck/) at
 - Check Paseo's existing projects first and reuse the matching folder. Add the folder in Paseo on the local host or, if the installed CLI supports the documented syntax, use `paseo project create "<absolute-project-path>"` followed by `paseo project ls`. Verify the CLI targets the same local daemon Cozy Pal detected. The [Paseo CLI reference](https://paseo.sh/docs/cli) and [workspace guide](https://paseo.sh/docs/workspaces) cover version-specific commands and the distinction between projects and workspaces.
 - Verify the project appears on that host. In the project's new-session setup, check that the provider offers at least one selectable model. Confirm the default if one is offered, or ask the user to choose a model. If the list is empty, return to provider diagnostics and check model access. A test run in the repository is optional and should be scoped to what the user requested.
 
-## 5. Hand off to iPhone
+## 5. Pair the iPhone and verify access
 
-If the iPhone is already paired, reuse the pairing. If Cozy Deck is missing on the iPhone, give the user the verified App Store listing or TestFlight invite from the official website. Once Cozy Deck is installed, guide the user to open it, choose Add Host, and scan the code in **Cozy Pal**. The user can pair before tool setup is complete or come back to pairing later. Keep the live code on the Mac. If the phone is available, verify the selected project, provider, and model in Cozy Deck's new-session flow. Confirm that pairing, provider readiness, and project visibility each have their own evidence. If interrupted, relay the remaining action and resume from the observed state.
+1. If the iPhone is already paired with this Mac, reuse that pairing. If Cozy Deck is missing on the iPhone, give the user the verified App Store listing or TestFlight invite from the official website.
+2. On the Mac where the coding tools run, open **Cozy Pal** from the menu bar. Go to **Pairing**, or use the pairing step in **First-Time Setup** when present. Keep the Mac awake. Use the live QR shown in Pal. Refresh it if it expires or was already used.
+3. On iPhone, open **Cozy Deck → Add Host** and scan the live QR. Wait for pairing to complete. Verify the intended Mac appears on the phone and the phone appears in Cozy Pal's **Devices**. If the scan or connection fails, use the [pairing troubleshooting steps](references/troubleshooting.md#pairing-fails-or-times-out).
+4. With the host reachable, open **New thread** and verify that the selected project, provider, and model are available. If the project list is empty or fails to load, use the [project troubleshooting steps](references/troubleshooting.md#paired-but-cant-see-or-add-a-project). Keep Cozy Pal and Paseo running on the Mac for continued access.
+
+The user can pair before tool setup is complete or come back to pairing later. Keep the live QR and any pairing material on the user's devices. If interrupted, report the last verified step and where to resume. See the [official pairing guide](https://sundaydesk.app/products/cozy-deck/#pairing).
